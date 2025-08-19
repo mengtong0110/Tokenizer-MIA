@@ -363,7 +363,7 @@ if __name__ == "__main__":
         for dataset in tqdm.tqdm(list(involved_datasets),desc='[0/4]'):
             for token in dataset2token_cnt[dataset]:
                 estimated_token2cnt[token] += dataset2token_cnt[dataset][token]
-        token_set = set() # {token for token in target_vocab.keys() if target_vocab.get(token, -1)+1 >= xmin + 1}
+        token_set = set() 
         for token in target_vocab.keys():
             if target_vocab.get(token, -1)+1 >= xmin + 1:
                 if token in estimated_token2cnt:
