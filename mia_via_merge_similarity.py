@@ -68,7 +68,6 @@ if __name__ == '__main__':
                 training_info = json.load(f)
             shared_shadow_datasets_list.append(set(training_info["member_datasets"]))
 
-        # 🔧 构建每个 dataset 对应的 in/out 索引列表
         dataset2in_out_index = {
             dataset: {
                 "in": [i for i in range(96) if dataset in shared_shadow_datasets_list[i]],
@@ -77,7 +76,6 @@ if __name__ == '__main__':
             for dataset in datasets
         }
 
-        # 并行批处理计算
         batch_size = 8
         dataset_batches = [datasets[i:i + batch_size] for i in range(0, len(datasets), batch_size)]
 
