@@ -45,7 +45,8 @@ python train_shadow_tokenizer.py
 Run the following code to conduct membership inference on tokenizers
 
 ```shell
-python mia_via_compression_rate.pypython mia_via_vocabulary_overlap.py
+python mia_via_compression_rate.py
+python mia_via_vocabulary_overlap.py
 python mia_via_frequency_estimation.py
 python mia_via_merge_similarity.py
 python mia_via_naive_bayes.py
