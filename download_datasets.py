@@ -8,8 +8,6 @@ from datasets import load_dataset
 
 base_dir = Path(__file__).parent
 
-os.environ["http_proxy"] = "http://127.0.0.1:10809"
-os.environ["https_proxy"] = "http://127.0.0.1:10809"
 custom_cache_dir = base_dir / "downloaded_data"
 os.environ["HF_HOME"] = str(custom_cache_dir)
 os.environ["HF_DATASETS_CACHE"] = str(custom_cache_dir)
