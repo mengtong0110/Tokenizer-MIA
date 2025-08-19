@@ -4,11 +4,11 @@ Code for the Security'26 submission "Membership Inference Attacks on Tokenizers 
 
 Note that this repo is anonymous and only intended for review purpose only.
 
-## Implement MIAs against tokenizers
+## Implementation Steps
 
-### Step 0. Install required packages
+### Step 0. Install Required Packages
 
-Prepare the evaluation environment:
+First, set up the Python environment and install all required dependencies.
 
 ```shell
 conda create -n MIA python=3.10
@@ -16,33 +16,33 @@ conda activate MIA
 pip install -r requirements.txt
 ```
 
-### Step 1. Download datasets for evaluations
+### Step 1. Download Datasets for Evaluation
 
-Download datasets collected by Google: 
+Next, download the datasets used in our evaluations. These datasets have been collected by Google
 
 ```shell
 python download_datasets.py
 ```
 
-### Step 2. Train target tokenizers
+### Step 2. Train Target Tokenizers
 
-Train the target tokenizers of LLMs:
+In this step, train the target tokenizers, which serve as the attack targets in MIA experiments.
 
 ```shell
 python train_target_tokenizer.py
 ```
 
-### Step 3. Train shadow tokenizers
+### Step 3. Train Shadow Tokenizers
 
-Train shadow tokenizers for MIAs: 
+Shadow tokenizers are trained to mimic the behavior of the target tokenizer. These are used in the attack phase to help infer membership.
 
 ```shell
 python train_shadow_tokenizer.py
 ```
 
-### Step 4. MIA via vocabulary overlap
+### Step 4. Perform Membership Inference Attacks
 
-Run the following code to conduct membership inference on tokenizers
+Now, conduct membership inference attacks using various methods. Each script below implements a different attack method.
 
 ```shell
 python mia_via_compression_rate.py
@@ -50,9 +50,8 @@ python mia_via_vocabulary_overlap.py
 python mia_via_frequency_estimation.py
 python mia_via_merge_similarity.py
 python mia_via_naive_bayes.py
-python mia_via_compression_rate.py
 
 
 ```
 
-All the experimental results will be shown in the folder "infer_results".
+All experimental results will be saved in the **infer_results** folder for further analysis.
