@@ -8,7 +8,7 @@ Note that this repo is anonymous and only intended for review purpose only.
 
 ### Step 0. Install required packages
 
-Prepare for the environment of evaluation:
+Prepare the evaluation environment:
 
 ```shell
 conda create -n MIA python=3.10
