@@ -1,6 +1,6 @@
 # Membership Inference Attacks on Tokenizers of Large Language Models
 
-Code for the Security'26 submission "Membership Inference Attacks on Tokenizers of Large Language Models"
+Code for the submission "Membership Inference Attacks on Tokenizers of Large Language Models"
 
 Note that this repo is anonymous and only intended for review purpose only.
 
