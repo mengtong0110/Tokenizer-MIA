@@ -54,7 +54,7 @@ if __name__ == '__main__':
     directory = base_dir / 'website_data'
     datasets = [f.name[:-5] for f in directory.iterdir() if f.is_file() and f.name.endswith('.json')]
     v_size = [200000, 170000, 140000, 110000, 80000]
-    shadow_num = 96
+    shadow_num = 128
 
     for vocab_size in v_size:
         target_tokenizer = Tokenizer.from_file(f"{base_dir}/trained_tokenizer/target_tokenizer-{vocab_size}.json")
