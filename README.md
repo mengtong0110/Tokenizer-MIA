@@ -24,8 +24,6 @@ Next, download the datasets used in our evaluations. These datasets have been co
 python download_datasets.py
 ```
 
-**Note:**  It is fine for artifact evaluations to skip this step, as we have provided the downloaded datasets of our paper in the 'website_data' folder.  We hope these datasets can be used to completely reproduce the artifact results.
-
 ### Step 2. Train Target Tokenizers
 
 In this step, train the target tokenizers, which serve as the attack targets in MIA experiments.
