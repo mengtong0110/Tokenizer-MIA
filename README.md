@@ -61,21 +61,7 @@ The code for the min count defense is provided in the 'min_defense' folder. It c
  python min_defense.py
 ```
 
-### Step 6. Differentially Private Mechanism against MIAs
 
-We implement the tokenizer training with DP via the modification of Hugging Face's Rust code. It requires a new conda environment. Specifically, the codes can be found in 'dp_defense' folder. We modified code in lines 486-505 of ‘dp_defense\source_code\tokenizers\src\models\bpe\trainer.rs’. The DP training with epsilon=30.0 is as follows:
-
-```shell
-conda create -n MIA_dp python=3.12
-conda activate MIA_dp
-cd dp_defense/source_code/bindings/python/
-pip install .
-pip install datasets
-pip install joblib
-pip install mpmath
-pip install numpy
-pip install powerlaw
-pip install scikit_learn
 pip install tqdm
 cd ../../../../
 python train_target_tokenizer.py #Before running, delete the previously trained tokenizers in step 2.
