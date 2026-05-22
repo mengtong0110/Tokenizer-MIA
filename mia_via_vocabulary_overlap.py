@@ -112,6 +112,7 @@ if __name__ == '__main__':
         balanced_accuracy = np.max(1 - (fpr + (1 - tpr)) / 2)
         tpr_at_low_fpr = tpr[np.where(np.array(fpr) < 0.01)[0][-1]] if np.any(np.array(fpr) < 0.01) else 0.0
 
+        
         result = {
             'roc_auc': roc_auc,
             'balanced_accuracy': balanced_accuracy,
