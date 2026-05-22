@@ -60,9 +60,3 @@ The code for the min count defense is provided in the 'min_defense' folder. It c
 ```shell
  python min_defense.py
 ```
-
-
-pip install tqdm
-cd ../../../../
-python train_target_tokenizer.py #Before running, delete the previously trained tokenizers in step 2.
-```
