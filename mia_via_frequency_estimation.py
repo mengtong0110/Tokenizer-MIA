@@ -16,11 +16,14 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 
 # ===================== CONFIG ======================
+random.seed(42)
 fpr_target = 0.01
 v_size = [200000, 170000, 140000, 110000, 80000]
 
 sampling_iteration = 10
 
+os.environ["http_proxy"] = "http://127.0.0.1:10809"
+os.environ["https_proxy"] = "http://127.0.0.1:10809"
 
 base_dir = Path(__file__).parent
 directory = base_dir / 'website_data'
@@ -176,11 +179,26 @@ if __name__ == "__main__":
             id2word = dict()
             next_id = 0
             dataset2id2cnt = dict()  
+
             for dataset in tqdm.tqdm(datasets):
                 counter = Counter()
                 with open(directory / f"{dataset}.json", 'r', encoding='utf-8') as f:
-                    url_data = json.load(f)
+                    raw_data = f.read()
+                
+                try:
+                    url_data = json.loads(raw_data)
+                except json.JSONDecodeError:
+                    # If it fails, attempt to sanitize bad Unicode escapes
+                    # This regex escapes any \u that isn't followed by 4 hex digits (turning \u into \\u)
+                    cleaned_data = re.sub(r'\\u(?![0-9a-fA-F]{4})', r'\\\\u', raw_data)
+                    try:
+                        url_data = json.loads(cleaned_data)
+                    except json.JSONDecodeError as e:
+                        tqdm.tqdm.write(f"[Warning] Could not salvage '{dataset}.json': {e}")
+                        continue
+                
                 for data in url_data:
+                    # ... rest of your code
                     words = re.findall(r'\w+|[^\w\s]+', data)
                     for word in words:
                         if word not in word2id:
@@ -332,11 +350,14 @@ if __name__ == "__main__":
                 if len(token)>1:
                     rank = shadow_vocab[token] + 1
                     rank_array.append(rank)
-                    freq_array.append(count / total_count)
+                    freq_array.append(count/total_count)
 
             rank_array = np.array(rank_array)
             freq_array = np.array(freq_array)
-            fit = powerlaw.Fit(rank_array, weights=freq_array, discrete=True, verbose=True, sigma_threshold=0.1)
+            N = 10_000_000 
+            synthetic_counts = np.ceil(freq_array * N).astype(int)
+            observations = np.repeat(rank_array, synthetic_counts)
+            fit = powerlaw.Fit(observations, discrete=True, verbose=True, sigma_threshold=0.1)
             xmin = fit.xmin
             alpha = fit.alpha
             with open(power_law_distribution_path, 'w') as f:
@@ -363,7 +384,7 @@ if __name__ == "__main__":
         for dataset in tqdm.tqdm(list(involved_datasets),desc='[0/4]'):
             for token in dataset2token_cnt[dataset]:
                 estimated_token2cnt[token] += dataset2token_cnt[dataset][token]
-        token_set = set() 
+        token_set = set() # {token for token in target_vocab.keys() if target_vocab.get(token, -1)+1 >= xmin + 1}
         for token in target_vocab.keys():
             if target_vocab.get(token, -1)+1 >= xmin + 1:
                 if token in estimated_token2cnt:
@@ -441,5 +462,5 @@ if __name__ == "__main__":
             'details': details
         }
 
-        with open(f'{base_dir}/infer_results/MIA via Frequency Estimation - v_size_{vocab_size}.json', 'w') as f:
+        with open(f'{base_dir}/infer_results/MIA via Signal F - v_size_{vocab_size}.json', 'w') as f:
             json.dump(result, f, indent=4)
